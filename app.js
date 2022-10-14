@@ -122,7 +122,7 @@ client.initialize();
 
 // Socket IO
 io.on('connection', function(socket) {
-  socket.emit('message', 'Connectando...');
+  socket.emit('message', 'Conectando...');
 
   client.on('qr', (qr) => {
     console.log('QR RECEIVED', qr);
@@ -148,7 +148,7 @@ io.on('connection', function(socket) {
   });
 
   client.on('disconnected', (reason) => {
-    socket.emit('message', 'Whatsapp desconectao!');
+    socket.emit('message', 'Whatsapp desconectado!');
     client.destroy();
     client.initialize();
   });
