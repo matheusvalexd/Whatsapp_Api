@@ -122,7 +122,7 @@ client.initialize();
 
 // Socket IO
 io.on('connection', function(socket) {
-  socket.emit('message', 'Connecting...');
+  socket.emit('message', 'Connectando...');
 
   client.on('qr', (qr) => {
     console.log('QR RECEIVED', qr);
