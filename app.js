@@ -53,7 +53,7 @@ const client = new Client({
       '--disable-gpu'
     ],
   },
-  authStrategy: new LocalAuth()
+  authStrategy: new LocalAuth({ clientId: 'botwpp' })
 });
 
 client.on('message', msg => {
@@ -123,6 +123,17 @@ client.initialize();
 // Socket IO
 io.on('connection', function(socket) {
   socket.emit('message', 'Conectando...');
+
+  socket.on('destroy-session', async () => {
+    console.log('destroy')
+    try{
+      await client.logout()
+      .then(async () => console.log('Conexão removida!'))
+    }
+    catch(e){
+      console.log('Erro promisse')
+    }
+  });
 
   client.on('qr', (qr) => {
     console.log('QR RECEIVED', qr);
