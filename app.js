@@ -219,6 +219,7 @@ app.post('/send-media', async (req, res) => {
   const number = phoneNumberFormatter(req.body.number);
   const caption = req.body.caption;
   const fileUrl = req.body.file;
+  const fileName = req.body.filename;
 
   // const media = MessageMedia.fromFilePath('./image-example.png');
   // const file = req.files.file;
@@ -231,7 +232,7 @@ app.post('/send-media', async (req, res) => {
     return response.data.toString('base64');
   });
 
-  const media = new MessageMedia(mimetype, attachment, 'Media');
+  const media = new MessageMedia(mimetype, attachment, fileName);
 
   client.sendMessage(number, media, {
     caption: caption
