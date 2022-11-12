@@ -7,7 +7,7 @@ const fs = require('fs');
 const { phoneNumberFormatter } = require('./helpers/formatter');
 const fileUpload = require('express-fileupload');
 const axios = require('axios');
-const port = process.env.PORT || 9000;
+const port = process.env.PORT || 8000;
 
 const app = express();
 const server = http.createServer(app);
@@ -16,7 +16,7 @@ const io = socketIO(server);
 const dirQrcode = './qrcode'
 if (!fs. existsSync(dirQrcode)){
   fs.mkdirSync(dirQrcode)
-};
+}
 
 app.use(express.json());
 app.use(express.urlencoded({
@@ -88,7 +88,8 @@ const createSession = function(id, token) {
   if (!fs.existsSync(dirQrcode + '/' + id)){
     fs.mkdirSync(dirQrcode + '/' + id)
   }
-  cliente.on('qr', async (qr) => {
+
+  client.on('qr', async (qr) => {
     console.log ('QRCode recebido', qr);
     const bufferImage = await qrcode.toDataURL(qr);
     var base64Data = bufferImage.replace(/^data:image\/png;base64,/,"");
@@ -236,12 +237,13 @@ app.post('/criar-sessao', [
 //Deletar sessão
 app.post('/deletar-sessao', [
   body('id').notEmpty(),
-], async (req,res) => {
+], async (req, res) => {
   const errors = validationResult(req).formatWith(({
     msg
   }) => {
     return msg;
   });
+  
   if (!errors.isEmpty()) {
     return res.status(422).json({
       status: false,
@@ -250,7 +252,7 @@ app.post('/deletar-sessao', [
   }
   const id = req.body.id;
   const token = req.body.token;
-  const client = sessions.find(sess => sessionStorage.id == id)?.client;
+  const client = sessions.find(sess => sess.id == id).client;
   const savedSessions = getSessionsFile();
   const tokenN = savedSessions.splice(sessionIndex, 1)[0].token;
 
@@ -301,7 +303,7 @@ app.post('/status-sessao', [
   }
 const id = req.body.id;
 const token = req.body.token;
-const client = sessions.find(sess => sess.id == id)?.client;
+const client = sessions.find(sess => sess.id == id).client;
 const savedSessions = getSessionsFile();
 const sessionIndexx = savedSessions.findIndex(sess => sess.id == id);
 const tokenN = savedSessions.splice(sessionIndex, 1)[0].token;
@@ -351,7 +353,7 @@ app.post('/send-message', [
   const number = phoneNumberFormatter(req.body.number);
   const message = req.body.message;
 
-  const client = sessions.find(sess => sess.id == sender)?.client;
+  const client = sessions.find(sess => sess.id == sender).client;
 
   // Make sure the sender is exists & ready
   if (!client) {
