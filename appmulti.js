@@ -193,11 +193,6 @@ init();
 // Socket IO
 io.on('connection', function(socket) {
   init(socket);
-
-  socket.on('create-session', function(data) {
-    console.log('Create session: ' + data.id);
-    createSession(data.id, data.token);
-  });
 });
 // Criar sessao
 app.post('/criar-sessao', [
