@@ -195,10 +195,7 @@ io.on('connection', function(socket) {
   init(socket);
 });
 // Criar sessao
-app.post('/criar-sessao', [
-    body('id').notEmpty(),
-    body('token').notEmpty(),
-], async (req, res) => {
+app.post('/criar-sessao', async (req, res) => {
   const errors = validationResult(req).formatWith(({
     msg
   }) => {
