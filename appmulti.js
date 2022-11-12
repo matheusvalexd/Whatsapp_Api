@@ -227,9 +227,7 @@ app.post('/criar-sessao', async (req, res) => {
 });
 
 //Deletar sessão
-app.post('/deletar-sessao', [
-  body('id').notEmpty(),
-], async (req, res) => {
+app.post('/deletar-sessao', async (req, res) => {
   const errors = validationResult(req).formatWith(({
     msg
   }) => {
@@ -278,9 +276,7 @@ try {
 });
 
 // Status de sessao
-app.post('/status-sessao', [
-  body('id').notEmpty(),
-], async (req, res) => {
+app.post('/status-sessao', async (req, res) => {
   const errors = validationResult(req).formatWith(({
     msg
   }) => {
@@ -323,10 +319,7 @@ try{
 });
 
 // Send message
-app.post('/send-message', [
-  body('number').notEmpty(),
-  body('message').notEmpty(),
-], async (req, res) => {
+app.post('/send-message', async (req, res) => {
   const errors = validationResult(req).formatWith(({
     msg
   }) => {
