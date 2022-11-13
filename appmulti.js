@@ -212,10 +212,12 @@ app.post('/qr-code', async (req, res) => {
       });
     }
     const id = req.body.id;
+    const contents = fs.readFileSync(dirQrcode + '/' + id + '/qrcode.png', {encoding: 'base64'});
   try{
     res.status(200).json({
       status: true,
-      message: ('./qrcode' + '/' + id + '/qrcode.png')
+      message: (dirQrcode + '/' + id + '/qrcode.png'),
+      qrcode: contents
       
     })
   } catch(e){
