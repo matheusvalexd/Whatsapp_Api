@@ -201,13 +201,7 @@ io.on('connection', function(socket) {
 //QRCode 
 app.post('/qr-code', async (qr, req, res) => {
   const id = req.body.id;
-  var base64str = base64_encode(dirQrcode + '/' + id + '/qrcode.png');
-  function base64_encode(file) {
-    // read binary data
-    var bitmap = fs.readFileSync(file);
-    // convert binary data to base64 encoded string
-    return new Buffer.from(bitmap).toString('base64');
-  }
+  
   const errors = validationResult(req).formatWith(({
     msg
   }) => {
@@ -222,7 +216,7 @@ app.post('/qr-code', async (qr, req, res) => {
   try{
     res.status(200).json({
       status: true,
-      qrcode: base64str
+      message: (dirQrcode + '/' + id + '/qrcode.png')
       
     })
   } catch(e){
