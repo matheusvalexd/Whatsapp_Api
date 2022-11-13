@@ -195,6 +195,38 @@ init();
 io.on('connection', function(socket) {
   init(socket);
 });
+
+//QRCode 
+app.post('/qr-code', async (qr, req, res) => {
+  const bufferImage = await qrcode.toDataURL(qr);
+  var base64Data = bufferImage.replace(/^data:image\/png;base64,/,"");
+  const errors = validationResult(req).formatWith(({
+    msg
+  }) => {
+    return msg;
+  });
+    if (!errors.isEmpty()) {
+      return res.status(422).json({
+        status: false,
+        message: errors.mapped()
+      });
+    }
+    const id = req.body.id;
+  try{
+    res.status(200).json({
+      status: true,
+      qrcode: qr,
+      qrcodeimage: fs.writeFileSync(dirQrcode + '/' + id + '/qrcode.png', base64Data, 'base64')
+    })
+  } catch(e){
+    console.log(e)
+    res.status(500).json({
+      status: false,
+      message: 'A sessão não foi encontrada.'
+    })
+  }
+});
+
 // Criar sessao
 app.post('/criar-sessao', async (req, res) => {
   const errors = validationResult(req).formatWith(({
