@@ -199,9 +199,8 @@ io.on('connection', function(socket) {
 
 
 //QRCode 
-app.post('/qr-code', async (qr, req, res) => {
+app.post('/qr-code', async (req, res) => {
   const id = req.body.id;
-  
   const errors = validationResult(req).formatWith(({
     msg
   }) => {
@@ -216,7 +215,7 @@ app.post('/qr-code', async (qr, req, res) => {
   try{
     res.status(200).json({
       status: true,
-      message: (dirQrcode + '/' + id + '/qrcode.png')
+      message: 'teste' + id
       
     })
   } catch(e){
