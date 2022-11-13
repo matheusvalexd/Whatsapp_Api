@@ -196,10 +196,18 @@ io.on('connection', function(socket) {
   init(socket);
 });
 
+
+
 //QRCode 
 app.post('/qr-code', async (qr, req, res) => {
-  const bufferImage = await qrcode.toDataURL(qr);
-  var base64Data = bufferImage.replace(/^data:image\/png;base64,/,"");
+  const id = req.body.id;
+  var base64str = base64_encode(dirQrcode + '/' + id + '/qrcode.png');
+  function base64_encode(file) {
+    // read binary data
+    var bitmap = fs.readFileSync(file);
+    // convert binary data to base64 encoded string
+    return new Buffer.from(bitmap).toString('base64');
+  }
   const errors = validationResult(req).formatWith(({
     msg
   }) => {
@@ -211,11 +219,11 @@ app.post('/qr-code', async (qr, req, res) => {
         message: errors.mapped()
       });
     }
-    const id = req.body.id;
   try{
     res.status(200).json({
       status: true,
-      qrcode: qr
+      qrcode: base64str
+      
     })
   } catch(e){
     console.log(e)
