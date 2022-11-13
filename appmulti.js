@@ -215,7 +215,7 @@ app.post('/qr-code', async (req, res) => {
   try{
     res.status(200).json({
       status: true,
-      message: (dirQrCode + '/' + id + '/qrcode.png')
+      message: ('./qrcode' + '/' + id + '/qrcode.png')
       
     })
   } catch(e){
