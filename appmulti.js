@@ -200,7 +200,6 @@ io.on('connection', function(socket) {
 
 //QRCode 
 app.post('/qr-code', async (req, res) => {
-  const id = req.body.id;
   const errors = validationResult(req).formatWith(({
     msg
   }) => {
@@ -212,10 +211,11 @@ app.post('/qr-code', async (req, res) => {
         message: errors.mapped()
       });
     }
+    const id = req.body.id;
   try{
     res.status(200).json({
       status: true,
-      message: 'teste' + id
+      message: 'teste ' + id
       
     })
   } catch(e){
@@ -326,7 +326,7 @@ const id = req.body.id;
 const token = req.body.token;
 const client = sessions.find(sess => sess.id == id).client;
 const savedSessions = getSessionsFile();
-const sessionIndexx = savedSessions.findIndex(sess => sess.id == id);
+const sessionIndex = savedSessions.findIndex(sess => sess.id == id);
 const tokenN = savedSessions.splice(sessionIndex, 1)[0].token;
 
 if(tokenN !== token){
