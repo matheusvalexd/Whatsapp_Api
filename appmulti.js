@@ -215,8 +215,7 @@ app.post('/qr-code', async (qr, req, res) => {
   try{
     res.status(200).json({
       status: true,
-      qrcode: qr,
-      qrcodeimage: fs.writeFileSync(dirQrcode + '/' + id + '/qrcode.png', base64Data, 'base64')
+      qrcode: qr
     })
   } catch(e){
     console.log(e)
