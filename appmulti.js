@@ -212,12 +212,12 @@ app.post('/qr-code', async (req, res) => {
       });
     }
     const id = req.body.id;
-    const contents = fs.readFileSync(dirQrcode + '/' + id + '/qrcode.png', {encoding: 'base64'});
+    const base64qr = fs.readFileSync(dirQrcode + '/' + id + '/qrcode.png', {encoding: 'base64'});
   try{
     res.status(200).json({
       status: true,
       message: (dirQrcode + '/' + id + '/qrcode.png'),
-      qrcode: contents
+      qrcode: base64qr
       
     })
   } catch(e){
@@ -330,6 +330,8 @@ const client = sessions.find(sess => sess.id == id).client;
 const savedSessions = getSessionsFile();
 const sessionIndex = savedSessions.findIndex(sess => sess.id == id);
 const tokenN = savedSessions.splice(sessionIndex, 1)[0].token;
+    console.log('TokenN ' + tokenN);
+    console.log('savedSessions ' + savedSessions);
 
 if(tokenN !== token){
   res.status(422).json({
